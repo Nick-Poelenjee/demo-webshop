@@ -84,3 +84,50 @@ window.clearBasket = function () {
   origClearBasket();
   renderBasketIndicator();
 };
+
+// Modal functionality
+const customProductModal = document.getElementById('customProductModal');
+const closeModal = document.getElementById('closeModal');
+const customProductForm = document.getElementById('customProductForm');
+
+// Open modal function
+function openCustomProductModal() {
+  customProductModal.style.display = 'block';
+}
+
+// Close modal function
+closeModal.addEventListener('click', () => {
+  customProductModal.style.display = 'none';
+});
+
+// Handle form submission
+customProductForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const productName = document.getElementById('productName').value;
+  const productDescription = document.getElementById('productDescription').value;
+  const productLink = document.getElementById('productLink').value;
+
+  if (!productName.trim()) {
+    alert('Product name is required.');
+    return;
+  }
+
+  const customProduct = {
+    id: `custom-${Date.now()}`,
+    name: productName,
+    description: productDescription,
+    link: productLink,
+    isCustom: true,
+    notification: 'This is a custom requested product.'
+  };
+
+  addToBasket(customProduct);
+  customProductModal.style.display = 'none';
+});
+
+// Example function to add product to basket
+function addToBasket(product) {
+  console.log('Product added to basket:', product);
+  // Implement basket addition logic here
+}
