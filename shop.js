@@ -38,12 +38,16 @@ function renderBasket() {
     return;
   }
   basket.forEach((product) => {
-    const item = PRODUCTS[product];
-    if (item) {
-      const li = document.createElement("li");
-      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${item.name}</span>`;
-      basketList.appendChild(li);
+    const li = document.createElement("li");
+    if (product.isCustom) {
+      li.innerHTML = `<span class='basket-emoji'>🛠️</span> <span>${product.name}</span> <small>(Custom Request)</small>`;
+    } else {
+      const item = PRODUCTS[product];
+      if (item) {
+        li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${item.name}</span>`;
+      }
     }
+    basketList.appendChild(li);
   });
   if (cartButtonsRow) cartButtonsRow.style.display = "flex";
 }
@@ -84,3 +88,46 @@ window.clearBasket = function () {
   origClearBasket();
   renderBasketIndicator();
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("custom-product-modal");
+  const openModalButton = document.getElementById("open-modal-button");
+  const closeModalButton = document.getElementById("close-modal");
+  const customProductForm = document.getElementById("custom-product-form");
+
+  // Open modal
+  openModalButton?.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+  });
+
+  // Close modal
+  closeModalButton?.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  // Handle form submission
+  customProductForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const productName = document.getElementById("product-name").value;
+    const productDescription = document.getElementById("product-description").value;
+    const productLink = document.getElementById("product-link").value;
+
+    if (productName && productDescription) {
+      const pseudoProduct = {
+        id: `custom-${Date.now()}`,
+        name: productName,
+        description: productDescription,
+        link: productLink,
+        isCustom: true,
+      };
+
+      addToBasket(pseudoProduct);
+      renderBasket();
+      modal.classList.add("hidden");
+      customProductForm.reset();
+    } else {
+      alert("Please fill in all required fields.");
+    }
+  });
+});
