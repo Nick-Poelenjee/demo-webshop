@@ -74,6 +74,31 @@
         By Tim Lolkema
       </a>
     </footer>
+
+    <!-- Modal for Custom Product Request -->
+    <div id="custom-product-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-button" id="close-modal">&times;</span>
+        <h2>Add Custom Product Request</h2>
+        <form id="custom-product-form">
+          <label for="product-name">Product Name:</label>
+          <input type="text" id="product-name" name="product-name" required />
+
+          <label for="product-description">Description:</label>
+          <textarea
+            id="product-description"
+            name="product-description"
+            required
+          ></textarea>
+
+          <label for="product-link">Reference Link:</label>
+          <input type="url" id="product-link" name="product-link" />
+
+          <button type="submit">Add to Basket</button>
+        </form>
+      </div>
+    </div>
+
     <script src="shop.js"></script>
   </body>
 </html>
