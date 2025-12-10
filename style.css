@@ -424,3 +424,24 @@ footer a {
   padding: 0.5rem;
   border-radius: 4px;
 }
+
+/* Highlight button for custom product request */
+.highlight-button {
+  background: #ff9800;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.2s;
+}
+.highlight-button:hover {
+  background: #e68900;
+  transform: scale(1.05);
+}
+.highlight-button:focus {
+  outline: 2px solid #ffcc80;
+  outline-offset: 2px;
+}
