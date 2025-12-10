@@ -66,6 +66,39 @@ function renderBasketIndicator() {
   }
 }
 
+// Modal handling
+const modal = document.getElementById("customProductModal");
+const closeButton = document.querySelector(".close-button");
+const cancelButton = document.getElementById("cancelButton");
+const customProductForm = document.getElementById("customProductForm");
+
+function toggleModal() {
+  modal.classList.toggle("show-modal");
+}
+
+closeButton.addEventListener("click", toggleModal);
+cancelButton.addEventListener("click", toggleModal);
+
+// Form submission
+customProductForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const productName = document.getElementById("productName").value;
+  const productDescription = document.getElementById("productDescription").value;
+  const productLink = document.getElementById("productLink").value;
+
+  const pseudoProduct = {
+    id: `custom-${Date.now()}`,
+    name: productName,
+    description: productDescription,
+    link: productLink,
+    isCustom: true,
+  };
+
+  addToBasket(pseudoProduct);
+  toggleModal();
+});
+
 // Call this on page load and after basket changes
 if (document.readyState !== "loading") {
   renderBasketIndicator();
@@ -73,14 +106,32 @@ if (document.readyState !== "loading") {
   document.addEventListener("DOMContentLoaded", renderBasketIndicator);
 }
 
-// Patch basket functions to update indicator
-const origAddToBasket = window.addToBasket;
-window.addToBasket = function (product) {
-  origAddToBasket(product);
-  renderBasketIndicator();
-};
-const origClearBasket = window.clearBasket;
-window.clearBasket = function () {
-  origClearBasket();
-  renderBasketIndicator();
-};
+// Update basket rendering to separate custom products
+function renderBasket() {
+  const basketContainer = document.getElementById("basket");
+  basketContainer.innerHTML = "";
+
+  basketItems.forEach((item) => {
+    const itemElement = document.createElement("div");
+    itemElement.classList.add("basket-item");
+
+    if (item.isCustom) {
+      itemElement.classList.add("custom-item");
+      itemElement.innerHTML = `
+        <p><strong>${item.name}</strong> (Custom Request)</p>
+        <p>${item.description}</p>
+        <p><a href="${item.link}" target="_blank">Reference Link</a></p>
+        <p class="notification">This is a custom requested item.</p>
+      `;
+    } else {
+      itemElement.innerHTML = `<p>${item.name}</p>`;
+    }
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => removeFromBasket(item.id));
+
+    itemElement.appendChild(removeButton);
+    basketContainer.appendChild(itemElement);
+  });
+}

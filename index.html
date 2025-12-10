@@ -64,6 +64,31 @@
           <a href="product-lemon.html">Go to Lemon</a>
         </li>
       </ul>
+
+      <!-- Modal for Custom Product Request -->
+      <div id="customProductModal" class="modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>Add Custom Product Request</h2>
+          <form id="customProductForm">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" required />
+
+            <label for="productDescription">Description:</label>
+            <textarea
+              id="productDescription"
+              name="productDescription"
+              required
+            ></textarea>
+
+            <label for="productLink">Reference Link:</label>
+            <input type="url" id="productLink" name="productLink" />
+
+            <button type="submit">Add to Basket</button>
+            <button type="button" id="cancelButton">Cancel</button>
+          </form>
+        </div>
+      </div>
     </main>
     <footer>
       <a
